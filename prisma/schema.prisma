@@ -1,0 +1,81 @@
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum CardState {
+  New
+  Learning
+  Review
+  Relearning
+}
+
+model User {
+  id            String             @id @default(cuid())
+  name          String
+  email         String             @unique
+  xp            Int                @default(0)
+  streak        Int                @default(0)
+  hearts        Int                @default(5)
+  lastStudyDate DateTime?
+  createdAt     DateTime           @default(now())
+  cardProgress  UserCardProgress[]
+}
+
+model Subject {
+  id          String          @id @default(cuid())
+  slug        String          @unique
+  title       String
+  description String
+  iconName    String
+  colorTheme  String
+  milestones  MilestoneNode[]
+}
+
+model MilestoneNode {
+  id          String      @id @default(cuid())
+  subjectId   String
+  subject     Subject     @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  title       String
+  orderIndex  Int
+  xpReward    Int         @default(20)
+  flashcards  Flashcard[]
+}
+
+model Flashcard {
+  id              String             @id @default(cuid())
+  milestoneNodeId String
+  milestoneNode   MilestoneNode      @relation(fields: [milestoneNodeId], references: [id], onDelete: Cascade)
+  prompt          String
+  answer          String
+  explanation     String
+  options         String[]           // Optional multiple-choice distractors for active recall
+  userProgress    UserCardProgress[]
+}
+
+model UserCardProgress {
+  id            String    @id @default(cuid())
+  userId        String
+  flashcardId   String
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  flashcard     Flashcard @relation(fields: [flashcardId], references: [id], onDelete: Cascade)
+
+  // FSRS Algorithm Parameters
+  due           DateTime  @default(now())
+  stability     Float     @default(0)
+  difficulty    Float     @default(0)
+  elapsedDays   Int       @default(0)
+  scheduledDays Int       @default(0)
+  reps          Int       @default(0)
+  lapses        Int       @default(0)
+  state         CardState @default(New)
+  lastReview    DateTime?
+
+  @@unique([userId, flashcardId])
+  @@index([userId, due])
+}
