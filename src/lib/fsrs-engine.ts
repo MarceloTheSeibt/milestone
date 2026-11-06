@@ -53,6 +53,7 @@ export function mapPrismaToFSRSCard(progress?: UserCardProgress | null): FSRSCar
     difficulty: progress.difficulty,
     elapsed_days: progress.elapsedDays,
     scheduled_days: progress.scheduledDays,
+    learning_steps: 0,
     reps: progress.reps,
     lapses: progress.lapses,
     state: prismaToStateMap[progress.state],
