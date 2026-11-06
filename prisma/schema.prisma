@@ -16,7 +16,7 @@ enum CardState {
 }
 
 model User {
-  id            String             @id @default(cuid())
+  id            String             @id
   name          String
   email         String             @unique
   xp            Int                @default(0)
@@ -24,6 +24,7 @@ model User {
   hearts        Int                @default(5)
   lastStudyDate DateTime?
   createdAt     DateTime           @default(now())
+
   cardProgress  UserCardProgress[]
 }
 

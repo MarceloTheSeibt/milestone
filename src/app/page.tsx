@@ -8,7 +8,7 @@ import {
   State,
 } from "ts-fsrs";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Flame,
   Heart,
@@ -23,7 +23,16 @@ import {
   Check,
   Star,
   BookMarked,
+  LogOut,
+  User as UserIcon,
 } from "lucide-react";
+import { createClient } from "@/lib/supabase/client";
+import { signOutUser } from "@/app/login/actions";
+import {
+  getUserProgress,
+  saveCardReview,
+  incrementUserStreak,
+} from "@/app/actions/progress";
 
 type ReviewGrade = "Again" | "Hard" | "Good" | "Easy";
 
@@ -1405,8 +1414,7 @@ const INITIAL_TRACKS: SubjectTrack[] = [
         cards: [
           {
             id: "card-cs-13",
-            prompt:
-              "Na lógica de programação, o que é uma 'Variável'?",
+            prompt: "Na lógica de programação, o que é uma 'Variável'?",
             answer:
               "Um espaço nomeado na memória do computador usado para guardar um valor que pode ser lido ou alterado durante o programa.",
             explanation:
@@ -1445,7 +1453,8 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             id: "card-cs-15",
             prompt:
               "Em programação, que tipo de valor uma variável 'Booleana' (Boolean) pode armazenar?",
-            answer: "Apenas dois valores lógicos possíveis: Verdadeiro (True) ou Falso (False).",
+            answer:
+              "Apenas dois valores lógicos possíveis: Verdadeiro (True) ou Falso (False).",
             explanation:
               "O tipo booleano é a base das decisões lógicas no código, indicando se uma condição foi atendida (True) ou não (False).",
             options: [
@@ -1542,13 +1551,13 @@ const fsrsScheduler = fsrs(
   generatorParameters({
     enable_fuzz: false,
     request_retention: 0.9,
-  })
+  }),
 );
 
 function updateCardWithFSRS(
   card: FlashcardItem,
   grade: ReviewGrade,
-  nowMs: number = Date.now()
+  nowMs: number = Date.now(),
 ): FlashcardItem {
   const now = new Date(nowMs);
   const baseCard = createEmptyCard(now);
@@ -1560,7 +1569,9 @@ function updateCardWithFSRS(
     reps: card.reps,
     lapses: card.lapses ?? 0,
     state: card.reps > 0 ? State.Review : State.New,
-    last_review: card.lastReviewDate ? new Date(card.lastReviewDate) : undefined,
+    last_review: card.lastReviewDate
+      ? new Date(card.lastReviewDate)
+      : undefined,
   };
 
   const ratingMap: Record<ReviewGrade, Rating> = {
@@ -1603,33 +1614,90 @@ function updateCardWithFSRS(
 }
 
 export default function MilestoneApp() {
-  const [xp, setXp] = useState(340);
-  const [streak, setStreak] = useState(5);
+  const [xp, setXp] = useState(0);
+  const [streak, setStreak] = useState(1);
   const [hearts, setHearts] = useState(5);
+  const [userName, setUserName] = useState<string>("Carregando...");
+  const [isLoggingOut, setIsLoggingOut] = useState<boolean>(false);
 
-  // Store tracks in state so FSRS updates and dueDates persist across steps
   const [tracks, setTracks] = useState<SubjectTrack[]>(INITIAL_TRACKS);
   const [activeTrackId, setActiveTrackId] = useState<string | null>(null);
   const [activeMilestone, setActiveMilestone] = useState<MilestoneStep | null>(
-    null
+    null,
   );
-  // Queue of cards for the active session (3 step cards + due FSRS cards from the subject)
   const [sessionCards, setSessionCards] = useState<FlashcardItem[]>([]);
+  const [completedMilestones, setCompletedMilestones] = useState<string[]>([]);
 
-  const [completedMilestones, setCompletedMilestones] = useState<string[]>([
-    "math-step-1",
-    "port-step-1",
-    "econ-step-1",
-    "cs-step-1",
-  ]);
+  useEffect(() => {
+    const hydrateFromDatabase = async () => {
+      const data = await getUserProgress();
+      if (!data) return;
+
+      setUserName(data.user.name);
+      setXp(data.user.xp);
+      setStreak(data.user.streak);
+      setHearts(data.user.hearts);
+
+      if (data.cardProgress.length > 0) {
+        const progressMap = new Map(
+          data.cardProgress.map((cp) => [cp.flashcardId, cp]),
+        );
+
+        const completedStepIds: string[] = [];
+
+        const mergedTracks = INITIAL_TRACKS.map((track) => ({
+          ...track,
+          milestones: track.milestones.map((step) => {
+            const updatedCards = step.cards.map((card) => {
+              const saved = progressMap.get(card.id);
+              if (!saved) return card;
+
+              return {
+                ...card,
+                stability: saved.stability,
+                difficulty: saved.difficulty,
+                reps: saved.reps,
+                lapses: saved.lapses,
+                dueDate: saved.dueDate,
+                lastReviewDate: saved.lastReviewDate,
+              };
+            });
+
+            // Mark step as completed if all 3 cards in the step have been reviewed in DB
+            const isStepDone = updatedCards.every((c) => progressMap.has(c.id));
+            if (isStepDone) {
+              completedStepIds.push(step.id);
+            }
+
+            return {
+              ...step,
+              cards: updatedCards,
+            };
+          }),
+        }));
+
+        setTracks(mergedTracks);
+        setCompletedMilestones(completedStepIds);
+      }
+    };
+
+    hydrateFromDatabase();
+  }, []);
+
+  const handleLogout = async () => {
+    setIsLoggingOut(true);
+    await signOutUser();
+  };
 
   const [cardIndex, setCardIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [isAnswerRevealed, setIsAnswerRevealed] = useState(false);
 
-  const [questionStartTime, setQuestionStartTime] = useState<number>(Date.now());
+  const [questionStartTime, setQuestionStartTime] = useState<number>(
+    Date.now(),
+  );
   const [responseTimeSeconds, setResponseTimeSeconds] = useState<number | null>(
-    null
+    null,
   );
   const [computedGrade, setComputedGrade] = useState<ReviewGrade | null>(null);
 
@@ -1650,7 +1718,7 @@ export default function MilestoneApp() {
     activeTrack.milestones.forEach((step) => {
       step.cards.forEach((card) => {
         const isAlreadyInCurrentStep = milestone.cards.some(
-          (c) => c.id === card.id
+          (c) => c.id === card.id,
         );
         if (
           !isAlreadyInCurrentStep &&
@@ -1707,11 +1775,11 @@ export default function MilestoneApp() {
           milestones: track.milestones.map((step) => ({
             ...step,
             cards: step.cards.map((c) =>
-              c.id === updatedCard.id ? updatedCard : c
+              c.id === updatedCard.id ? updatedCard : c,
             ),
           })),
         };
-      })
+      }),
     );
 
     // Update current session card to display the new FSRS values immediately
@@ -1723,8 +1791,8 @@ export default function MilestoneApp() {
               isFsrsReview: c.isFsrsReview,
               originStepTitle: c.originStepTitle,
             }
-          : c
-      )
+          : c,
+      ),
     );
 
     const xpMap: Record<ReviewGrade, number> = {
@@ -1742,9 +1810,42 @@ export default function MilestoneApp() {
     if (autoGrade === "Again") {
       setHearts((prev) => Math.max(0, prev - 1));
     }
+    if (activeTrack && activeMilestone) {
+      const stepIndex = activeTrack.milestones.findIndex(
+        (m) => m.id === activeMilestone.id,
+      );
+
+      await saveCardReview({
+        track: {
+          id: activeTrack.id,
+          slug: activeTrack.slug,
+          title: activeTrack.title,
+          description: activeTrack.description,
+        },
+        milestone: {
+          id: activeMilestone.id,
+          title: activeMilestone.title,
+          orderIndex: stepIndex >= 0 ? stepIndex + 1 : 1,
+        },
+        card: {
+          id: updatedCard.id,
+          prompt: updatedCard.prompt,
+          answer: updatedCard.answer,
+          explanation: updatedCard.explanation,
+          options: updatedCard.options,
+          stability: updatedCard.stability,
+          difficulty: updatedCard.difficulty,
+          reps: updatedCard.reps,
+          lapses: updatedCard.lapses ?? 0,
+          dueDate: updatedCard.dueDate ?? nowMs,
+          lastReviewDate: updatedCard.lastReviewDate ?? nowMs,
+        },
+        grade: autoGrade,
+      });
+    }
   };
 
-  const handleNextCard = () => {
+  const handleNextCard = async () => {
     if (!activeMilestone) return;
 
     if (cardIndex + 1 < sessionCards.length) {
@@ -1760,6 +1861,7 @@ export default function MilestoneApp() {
       }
       setStreak((prev) => prev + 1);
       setActiveMilestone(null);
+      await incrementUserStreak();
     }
   };
 
@@ -1774,8 +1876,9 @@ export default function MilestoneApp() {
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col">
       {/* Top Navigation & Gamification HUD */}
+      {/* Top Navigation & Gamification HUD */}
       <header className="border-b border-slate-800 bg-slate-900/80 backdrop-blur sticky top-0 z-20">
-        <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
+        <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-400 to-cyan-500 flex items-center justify-center font-black text-slate-950 text-xl shadow-lg shadow-emerald-500/20">
               M
@@ -1790,15 +1893,16 @@ export default function MilestoneApp() {
             </div>
           </div>
 
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-3 sm:gap-5">
+            {/* Gamification Stats */}
             <div
               className="flex items-center gap-2 bg-slate-800/90 px-3.5 py-1.5 rounded-full border border-slate-700"
               title="Ofensiva de estudos"
             >
               <Flame className="w-5 h-5 text-orange-400 fill-orange-400" />
               <span className="font-bold text-orange-400">{streak}</span>
-              <span className="text-xs text-slate-400 hidden sm:inline">
-                dias de ofensiva
+              <span className="text-xs text-slate-400 hidden md:inline">
+                dias
               </span>
             </div>
 
@@ -1816,6 +1920,31 @@ export default function MilestoneApp() {
             >
               <Heart className="w-5 h-5 text-rose-500 fill-rose-500" />
               <span className="font-bold text-rose-400">{hearts}</span>
+            </div>
+
+            {/* Divider */}
+            <div className="h-6 w-px bg-slate-800 hidden sm:block" />
+
+            {/* Logged-in User Profile & Logout Button */}
+            <div className="flex items-center gap-2.5">
+              <div className="hidden sm:flex items-center gap-2 bg-slate-800/60 px-3 py-1.5 rounded-full border border-slate-700/80">
+                <UserIcon className="w-4 h-4 text-emerald-400" />
+                <span className="text-xs font-bold text-slate-200 max-w-[120px] truncate">
+                  {userName}
+                </span>
+              </div>
+
+              <button
+                onClick={handleLogout}
+                disabled={isLoggingOut}
+                title="Sair da conta"
+                className="flex items-center gap-1.5 bg-slate-800/90 hover:bg-rose-500/20 text-slate-300 hover:text-rose-300 border border-slate-700 hover:border-rose-500/40 px-3 py-1.5 rounded-full text-xs font-bold transition disabled:opacity-50"
+              >
+                <LogOut className="w-4 h-4" />
+                <span className="hidden sm:inline">
+                  {isLoggingOut ? "Saindo..." : "Sair"}
+                </span>
+              </button>
             </div>
           </div>
         </div>
@@ -1986,9 +2115,7 @@ export default function MilestoneApp() {
               <div
                 className="h-full bg-emerald-500 transition-all duration-300"
                 style={{
-                  width: `${
-                    ((cardIndex + 1) / sessionCards.length) * 100
-                  }%`,
+                  width: `${((cardIndex + 1) / sessionCards.length) * 100}%`,
                 }}
               />
             </div>

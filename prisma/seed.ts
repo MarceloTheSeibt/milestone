@@ -7,6 +7,7 @@ async function main() {
     where: { email: "student@university.edu" },
     update: {},
     create: {
+      id: "00000000-0000-0000-0000-000000000001",
       name: "Alex Rivera",
       email: "student@university.edu",
       xp: 340,
