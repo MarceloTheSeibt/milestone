@@ -6,6 +6,7 @@ import {
   generatorParameters,
   Rating,
   State,
+  type Grade,
 } from "ts-fsrs";
 
 import React, { useState, useEffect } from "react";
@@ -107,7 +108,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 2.4,
             difficulty: 3.5,
             reps: 2,
-            intervals: { Again: "1m", Hard: "2d", Good: "6d", Easy: "14d" },
+            intervals: {
+              Again: "1m",
+              Hard: "2d",
+              Good: "6d",
+              Easy: "14d",
+            },
           },
           {
             id: "card-math-2",
@@ -125,7 +131,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 2.8,
             difficulty: 3.2,
             reps: 2,
-            intervals: { Again: "1m", Hard: "2d", Good: "7d", Easy: "15d" },
+            intervals: {
+              Again: "1m",
+              Hard: "2d",
+              Good: "7d",
+              Easy: "15d",
+            },
           },
           {
             id: "card-math-3",
@@ -138,7 +149,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 2.5,
             difficulty: 3.1,
             reps: 2,
-            intervals: { Again: "1m", Hard: "2d", Good: "6d", Easy: "14d" },
+            intervals: {
+              Again: "1m",
+              Hard: "2d",
+              Good: "6d",
+              Easy: "14d",
+            },
           },
         ],
       },
@@ -157,7 +173,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 1.8,
             difficulty: 3.8,
             reps: 1,
-            intervals: { Again: "1m", Hard: "1d", Good: "4d", Easy: "10d" },
+            intervals: {
+              Again: "1m",
+              Hard: "1d",
+              Good: "4d",
+              Easy: "10d",
+            },
           },
           {
             id: "card-math-5",
@@ -176,7 +197,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 2.1,
             difficulty: 4.2,
             reps: 2,
-            intervals: { Again: "1m", Hard: "2d", Good: "5d", Easy: "12d" },
+            intervals: {
+              Again: "1m",
+              Hard: "2d",
+              Good: "5d",
+              Easy: "12d",
+            },
           },
           {
             id: "card-math-6",
@@ -188,7 +214,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 3.0,
             difficulty: 2.9,
             reps: 3,
-            intervals: { Again: "1m", Hard: "3d", Good: "8d", Easy: "17d" },
+            intervals: {
+              Again: "1m",
+              Hard: "3d",
+              Good: "8d",
+              Easy: "17d",
+            },
           },
         ],
       },
@@ -207,7 +238,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 3.2,
             difficulty: 3.0,
             reps: 3,
-            intervals: { Again: "1m", Hard: "3d", Good: "8d", Easy: "18d" },
+            intervals: {
+              Again: "1m",
+              Hard: "3d",
+              Good: "8d",
+              Easy: "18d",
+            },
           },
           {
             id: "card-math-8",
@@ -220,7 +256,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 3.0,
             difficulty: 3.1,
             reps: 2,
-            intervals: { Again: "1m", Hard: "3d", Good: "7d", Easy: "16d" },
+            intervals: {
+              Again: "1m",
+              Hard: "3d",
+              Good: "7d",
+              Easy: "16d",
+            },
           },
           {
             id: "card-math-9",
@@ -233,7 +274,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 3.4,
             difficulty: 2.8,
             reps: 3,
-            intervals: { Again: "1m", Hard: "4d", Good: "9d", Easy: "20d" },
+            intervals: {
+              Again: "1m",
+              Hard: "4d",
+              Good: "9d",
+              Easy: "20d",
+            },
           },
         ],
       },
@@ -251,7 +297,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 2.6,
             difficulty: 3.2,
             reps: 2,
-            intervals: { Again: "1m", Hard: "2d", Good: "6d", Easy: "14d" },
+            intervals: {
+              Again: "1m",
+              Hard: "2d",
+              Good: "6d",
+              Easy: "14d",
+            },
           },
           {
             id: "card-math-11",
@@ -264,7 +315,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 2.9,
             difficulty: 3.0,
             reps: 2,
-            intervals: { Again: "1m", Hard: "3d", Good: "7d", Easy: "15d" },
+            intervals: {
+              Again: "1m",
+              Hard: "3d",
+              Good: "7d",
+              Easy: "15d",
+            },
           },
           {
             id: "card-math-12",
@@ -276,7 +332,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 3.1,
             difficulty: 2.8,
             reps: 3,
-            intervals: { Again: "1m", Hard: "3d", Good: "8d", Easy: "18d" },
+            intervals: {
+              Again: "1m",
+              Hard: "3d",
+              Good: "8d",
+              Easy: "18d",
+            },
           },
         ],
       },
@@ -300,7 +361,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 3.3,
             difficulty: 2.7,
             reps: 3,
-            intervals: { Again: "1m", Hard: "4d", Good: "9d", Easy: "19d" },
+            intervals: {
+              Again: "1m",
+              Hard: "4d",
+              Good: "9d",
+              Easy: "19d",
+            },
           },
           {
             id: "card-math-14",
@@ -318,7 +384,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 3.0,
             difficulty: 2.9,
             reps: 2,
-            intervals: { Again: "1m", Hard: "3d", Good: "7d", Easy: "16d" },
+            intervals: {
+              Again: "1m",
+              Hard: "3d",
+              Good: "7d",
+              Easy: "16d",
+            },
           },
           {
             id: "card-math-15",
@@ -336,7 +407,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 2.8,
             difficulty: 3.1,
             reps: 2,
-            intervals: { Again: "1m", Hard: "3d", Good: "7d", Easy: "15d" },
+            intervals: {
+              Again: "1m",
+              Hard: "3d",
+              Good: "7d",
+              Easy: "15d",
+            },
           },
         ],
       },
@@ -355,7 +431,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 3.4,
             difficulty: 2.6,
             reps: 3,
-            intervals: { Again: "1m", Hard: "4d", Good: "9d", Easy: "20d" },
+            intervals: {
+              Again: "1m",
+              Hard: "4d",
+              Good: "9d",
+              Easy: "20d",
+            },
           },
           {
             id: "card-math-17",
@@ -368,7 +449,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 3.2,
             difficulty: 2.8,
             reps: 3,
-            intervals: { Again: "1m", Hard: "3d", Good: "8d", Easy: "18d" },
+            intervals: {
+              Again: "1m",
+              Hard: "3d",
+              Good: "8d",
+              Easy: "18d",
+            },
           },
           {
             id: "card-math-18",
@@ -380,7 +466,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 3.5,
             difficulty: 2.5,
             reps: 3,
-            intervals: { Again: "1m", Hard: "4d", Good: "10d", Easy: "21d" },
+            intervals: {
+              Again: "1m",
+              Hard: "4d",
+              Good: "10d",
+              Easy: "21d",
+            },
           },
         ],
       },
@@ -418,7 +509,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 3.1,
             difficulty: 4.8,
             reps: 3,
-            intervals: { Again: "5m", Hard: "4d", Good: "9d", Easy: "21d" },
+            intervals: {
+              Again: "5m",
+              Hard: "4d",
+              Good: "9d",
+              Easy: "21d",
+            },
           },
           {
             id: "card-port-2",
@@ -437,7 +533,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 2.5,
             difficulty: 3.9,
             reps: 2,
-            intervals: { Again: "1m", Hard: "2d", Good: "6d", Easy: "14d" },
+            intervals: {
+              Again: "1m",
+              Hard: "2d",
+              Good: "6d",
+              Easy: "14d",
+            },
           },
           {
             id: "card-port-3",
@@ -455,7 +556,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 2.7,
             difficulty: 3.5,
             reps: 2,
-            intervals: { Again: "1m", Hard: "2d", Good: "6d", Easy: "15d" },
+            intervals: {
+              Again: "1m",
+              Hard: "2d",
+              Good: "6d",
+              Easy: "15d",
+            },
           },
         ],
       },
@@ -479,7 +585,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 2.9,
             difficulty: 3.4,
             reps: 2,
-            intervals: { Again: "1m", Hard: "3d", Good: "7d", Easy: "15d" },
+            intervals: {
+              Again: "1m",
+              Hard: "3d",
+              Good: "7d",
+              Easy: "15d",
+            },
           },
           {
             id: "card-port-5",
@@ -498,7 +609,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 3.5,
             difficulty: 2.8,
             reps: 3,
-            intervals: { Again: "5m", Hard: "4d", Good: "10d", Easy: "22d" },
+            intervals: {
+              Again: "5m",
+              Hard: "4d",
+              Good: "10d",
+              Easy: "22d",
+            },
           },
           {
             id: "card-port-6",
@@ -516,7 +632,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 3.0,
             difficulty: 3.1,
             reps: 2,
-            intervals: { Again: "1m", Hard: "3d", Good: "7d", Easy: "16d" },
+            intervals: {
+              Again: "1m",
+              Hard: "3d",
+              Good: "7d",
+              Easy: "16d",
+            },
           },
         ],
       },
@@ -540,7 +661,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 2.7,
             difficulty: 3.2,
             reps: 2,
-            intervals: { Again: "1m", Hard: "2d", Good: "6d", Easy: "14d" },
+            intervals: {
+              Again: "1m",
+              Hard: "2d",
+              Good: "6d",
+              Easy: "14d",
+            },
           },
           {
             id: "card-port-8",
@@ -559,7 +685,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 2.2,
             difficulty: 4.1,
             reps: 2,
-            intervals: { Again: "1m", Hard: "2d", Good: "5d", Easy: "12d" },
+            intervals: {
+              Again: "1m",
+              Hard: "2d",
+              Good: "5d",
+              Easy: "12d",
+            },
           },
           {
             id: "card-port-9",
@@ -577,7 +708,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 2.8,
             difficulty: 3.3,
             reps: 2,
-            intervals: { Again: "1m", Hard: "3d", Good: "7d", Easy: "15d" },
+            intervals: {
+              Again: "1m",
+              Hard: "3d",
+              Good: "7d",
+              Easy: "15d",
+            },
           },
         ],
       },
@@ -601,7 +737,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 2.9,
             difficulty: 3.1,
             reps: 2,
-            intervals: { Again: "1m", Hard: "3d", Good: "7d", Easy: "16d" },
+            intervals: {
+              Again: "1m",
+              Hard: "3d",
+              Good: "7d",
+              Easy: "16d",
+            },
           },
           {
             id: "card-port-11",
@@ -619,7 +760,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 2.6,
             difficulty: 3.5,
             reps: 2,
-            intervals: { Again: "1m", Hard: "2d", Good: "6d", Easy: "14d" },
+            intervals: {
+              Again: "1m",
+              Hard: "2d",
+              Good: "6d",
+              Easy: "14d",
+            },
           },
           {
             id: "card-port-12",
@@ -638,7 +784,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 3.1,
             difficulty: 2.9,
             reps: 3,
-            intervals: { Again: "1m", Hard: "3d", Good: "8d", Easy: "18d" },
+            intervals: {
+              Again: "1m",
+              Hard: "3d",
+              Good: "8d",
+              Easy: "18d",
+            },
           },
         ],
       },
@@ -657,7 +808,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 3.2,
             difficulty: 2.8,
             reps: 3,
-            intervals: { Again: "1m", Hard: "3d", Good: "8d", Easy: "18d" },
+            intervals: {
+              Again: "1m",
+              Hard: "3d",
+              Good: "8d",
+              Easy: "18d",
+            },
           },
           {
             id: "card-port-14",
@@ -670,7 +826,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 3.4,
             difficulty: 2.7,
             reps: 3,
-            intervals: { Again: "1m", Hard: "4d", Good: "9d", Easy: "20d" },
+            intervals: {
+              Again: "1m",
+              Hard: "4d",
+              Good: "9d",
+              Easy: "20d",
+            },
           },
           {
             id: "card-port-15",
@@ -688,7 +849,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 2.7,
             difficulty: 3.4,
             reps: 2,
-            intervals: { Again: "1m", Hard: "2d", Good: "6d", Easy: "14d" },
+            intervals: {
+              Again: "1m",
+              Hard: "2d",
+              Good: "6d",
+              Easy: "14d",
+            },
           },
         ],
       },
@@ -713,7 +879,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 3.3,
             difficulty: 2.8,
             reps: 3,
-            intervals: { Again: "1m", Hard: "4d", Good: "9d", Easy: "19d" },
+            intervals: {
+              Again: "1m",
+              Hard: "4d",
+              Good: "9d",
+              Easy: "19d",
+            },
           },
           {
             id: "card-port-17",
@@ -732,7 +903,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 3.0,
             difficulty: 3.0,
             reps: 2,
-            intervals: { Again: "1m", Hard: "3d", Good: "7d", Easy: "16d" },
+            intervals: {
+              Again: "1m",
+              Hard: "3d",
+              Good: "7d",
+              Easy: "16d",
+            },
           },
           {
             id: "card-port-18",
@@ -751,7 +927,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 3.2,
             difficulty: 2.9,
             reps: 3,
-            intervals: { Again: "1m", Hard: "3d", Good: "8d", Easy: "18d" },
+            intervals: {
+              Again: "1m",
+              Hard: "3d",
+              Good: "8d",
+              Easy: "18d",
+            },
           },
         ],
       },
@@ -790,7 +971,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 1.8,
             difficulty: 4.5,
             reps: 1,
-            intervals: { Again: "1m", Hard: "2d", Good: "5d", Easy: "11d" },
+            intervals: {
+              Again: "1m",
+              Hard: "2d",
+              Good: "5d",
+              Easy: "11d",
+            },
           },
           {
             id: "card-econ-2",
@@ -808,7 +994,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 2.9,
             difficulty: 3.1,
             reps: 2,
-            intervals: { Again: "1m", Hard: "3d", Good: "7d", Easy: "16d" },
+            intervals: {
+              Again: "1m",
+              Hard: "3d",
+              Good: "7d",
+              Easy: "16d",
+            },
           },
           {
             id: "card-econ-3",
@@ -826,7 +1017,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 3.1,
             difficulty: 2.9,
             reps: 2,
-            intervals: { Again: "1m", Hard: "3d", Good: "8d", Easy: "17d" },
+            intervals: {
+              Again: "1m",
+              Hard: "3d",
+              Good: "8d",
+              Easy: "17d",
+            },
           },
         ],
       },
@@ -851,7 +1047,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 3.0,
             difficulty: 3.2,
             reps: 2,
-            intervals: { Again: "1m", Hard: "3d", Good: "8d", Easy: "17d" },
+            intervals: {
+              Again: "1m",
+              Hard: "3d",
+              Good: "8d",
+              Easy: "17d",
+            },
           },
           {
             id: "card-econ-5",
@@ -869,7 +1070,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 2.6,
             difficulty: 3.6,
             reps: 2,
-            intervals: { Again: "1m", Hard: "2d", Good: "6d", Easy: "14d" },
+            intervals: {
+              Again: "1m",
+              Hard: "2d",
+              Good: "6d",
+              Easy: "14d",
+            },
           },
           {
             id: "card-econ-6",
@@ -888,7 +1094,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 2.5,
             difficulty: 3.7,
             reps: 2,
-            intervals: { Again: "1m", Hard: "2d", Good: "6d", Easy: "14d" },
+            intervals: {
+              Again: "1m",
+              Hard: "2d",
+              Good: "6d",
+              Easy: "14d",
+            },
           },
         ],
       },
@@ -913,7 +1124,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 2.3,
             difficulty: 3.9,
             reps: 2,
-            intervals: { Again: "1m", Hard: "2d", Good: "6d", Easy: "13d" },
+            intervals: {
+              Again: "1m",
+              Hard: "2d",
+              Good: "6d",
+              Easy: "13d",
+            },
           },
           {
             id: "card-econ-8",
@@ -932,7 +1148,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 3.4,
             difficulty: 2.9,
             reps: 3,
-            intervals: { Again: "5m", Hard: "4d", Good: "9d", Easy: "20d" },
+            intervals: {
+              Again: "5m",
+              Hard: "4d",
+              Good: "9d",
+              Easy: "20d",
+            },
           },
           {
             id: "card-econ-9",
@@ -951,7 +1172,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 3.2,
             difficulty: 2.8,
             reps: 3,
-            intervals: { Again: "5m", Hard: "4d", Good: "9d", Easy: "19d" },
+            intervals: {
+              Again: "5m",
+              Hard: "4d",
+              Good: "9d",
+              Easy: "19d",
+            },
           },
         ],
       },
@@ -976,7 +1202,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 3.3,
             difficulty: 2.7,
             reps: 3,
-            intervals: { Again: "1m", Hard: "4d", Good: "9d", Easy: "19d" },
+            intervals: {
+              Again: "1m",
+              Hard: "4d",
+              Good: "9d",
+              Easy: "19d",
+            },
           },
           {
             id: "card-econ-11",
@@ -995,7 +1226,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 2.6,
             difficulty: 3.5,
             reps: 2,
-            intervals: { Again: "1m", Hard: "2d", Good: "6d", Easy: "14d" },
+            intervals: {
+              Again: "1m",
+              Hard: "2d",
+              Good: "6d",
+              Easy: "14d",
+            },
           },
           {
             id: "card-econ-12",
@@ -1014,7 +1250,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 2.9,
             difficulty: 3.1,
             reps: 2,
-            intervals: { Again: "1m", Hard: "3d", Good: "7d", Easy: "16d" },
+            intervals: {
+              Again: "1m",
+              Hard: "3d",
+              Good: "7d",
+              Easy: "16d",
+            },
           },
         ],
       },
@@ -1038,7 +1279,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 3.1,
             difficulty: 2.9,
             reps: 3,
-            intervals: { Again: "1m", Hard: "3d", Good: "8d", Easy: "18d" },
+            intervals: {
+              Again: "1m",
+              Hard: "3d",
+              Good: "8d",
+              Easy: "18d",
+            },
           },
           {
             id: "card-econ-14",
@@ -1057,7 +1303,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 3.5,
             difficulty: 2.5,
             reps: 3,
-            intervals: { Again: "1m", Hard: "4d", Good: "10d", Easy: "21d" },
+            intervals: {
+              Again: "1m",
+              Hard: "4d",
+              Good: "10d",
+              Easy: "21d",
+            },
           },
           {
             id: "card-econ-15",
@@ -1076,7 +1327,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 3.0,
             difficulty: 3.0,
             reps: 2,
-            intervals: { Again: "1m", Hard: "3d", Good: "7d", Easy: "16d" },
+            intervals: {
+              Again: "1m",
+              Hard: "3d",
+              Good: "7d",
+              Easy: "16d",
+            },
           },
         ],
       },
@@ -1101,7 +1357,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 2.8,
             difficulty: 3.2,
             reps: 2,
-            intervals: { Again: "1m", Hard: "3d", Good: "7d", Easy: "15d" },
+            intervals: {
+              Again: "1m",
+              Hard: "3d",
+              Good: "7d",
+              Easy: "15d",
+            },
           },
           {
             id: "card-econ-17",
@@ -1120,7 +1381,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 2.5,
             difficulty: 3.6,
             reps: 2,
-            intervals: { Again: "1m", Hard: "2d", Good: "6d", Easy: "14d" },
+            intervals: {
+              Again: "1m",
+              Hard: "2d",
+              Good: "6d",
+              Easy: "14d",
+            },
           },
           {
             id: "card-econ-18",
@@ -1139,7 +1405,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 3.4,
             difficulty: 2.7,
             reps: 3,
-            intervals: { Again: "1m", Hard: "4d", Good: "9d", Easy: "20d" },
+            intervals: {
+              Again: "1m",
+              Hard: "4d",
+              Good: "9d",
+              Easy: "20d",
+            },
           },
         ],
       },
@@ -1178,7 +1449,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 3.5,
             difficulty: 2.8,
             reps: 3,
-            intervals: { Again: "5m", Hard: "4d", Good: "10d", Easy: "21d" },
+            intervals: {
+              Again: "5m",
+              Hard: "4d",
+              Good: "10d",
+              Easy: "21d",
+            },
           },
           {
             id: "card-cs-2",
@@ -1197,7 +1473,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 2.8,
             difficulty: 3.4,
             reps: 2,
-            intervals: { Again: "1m", Hard: "3d", Good: "7d", Easy: "15d" },
+            intervals: {
+              Again: "1m",
+              Hard: "3d",
+              Good: "7d",
+              Easy: "15d",
+            },
           },
           {
             id: "card-cs-3",
@@ -1216,7 +1497,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 3.2,
             difficulty: 3.0,
             reps: 3,
-            intervals: { Again: "1m", Hard: "3d", Good: "8d", Easy: "18d" },
+            intervals: {
+              Again: "1m",
+              Hard: "3d",
+              Good: "8d",
+              Easy: "18d",
+            },
           },
         ],
       },
@@ -1240,7 +1526,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 2.5,
             difficulty: 3.7,
             reps: 2,
-            intervals: { Again: "1m", Hard: "2d", Good: "6d", Easy: "14d" },
+            intervals: {
+              Again: "1m",
+              Hard: "2d",
+              Good: "6d",
+              Easy: "14d",
+            },
           },
           {
             id: "card-cs-5",
@@ -1259,7 +1550,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 2.7,
             difficulty: 3.3,
             reps: 2,
-            intervals: { Again: "1m", Hard: "2d", Good: "6d", Easy: "15d" },
+            intervals: {
+              Again: "1m",
+              Hard: "2d",
+              Good: "6d",
+              Easy: "15d",
+            },
           },
           {
             id: "card-cs-6",
@@ -1278,7 +1574,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 3.1,
             difficulty: 2.9,
             reps: 2,
-            intervals: { Again: "1m", Hard: "3d", Good: "8d", Easy: "17d" },
+            intervals: {
+              Again: "1m",
+              Hard: "3d",
+              Good: "8d",
+              Easy: "17d",
+            },
           },
         ],
       },
@@ -1303,7 +1604,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 3.0,
             difficulty: 3.1,
             reps: 2,
-            intervals: { Again: "1m", Hard: "3d", Good: "8d", Easy: "17d" },
+            intervals: {
+              Again: "1m",
+              Hard: "3d",
+              Good: "8d",
+              Easy: "17d",
+            },
           },
           {
             id: "card-cs-8",
@@ -1322,7 +1628,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 2.9,
             difficulty: 3.2,
             reps: 2,
-            intervals: { Again: "1m", Hard: "3d", Good: "7d", Easy: "16d" },
+            intervals: {
+              Again: "1m",
+              Hard: "3d",
+              Good: "7d",
+              Easy: "16d",
+            },
           },
           {
             id: "card-cs-9",
@@ -1341,7 +1652,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 3.3,
             difficulty: 2.8,
             reps: 3,
-            intervals: { Again: "5m", Hard: "4d", Good: "9d", Easy: "20d" },
+            intervals: {
+              Again: "5m",
+              Hard: "4d",
+              Good: "9d",
+              Easy: "20d",
+            },
           },
         ],
       },
@@ -1366,7 +1682,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 3.4,
             difficulty: 2.6,
             reps: 3,
-            intervals: { Again: "1m", Hard: "4d", Good: "9d", Easy: "20d" },
+            intervals: {
+              Again: "1m",
+              Hard: "4d",
+              Good: "9d",
+              Easy: "20d",
+            },
           },
           {
             id: "card-cs-11",
@@ -1385,7 +1706,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 3.0,
             difficulty: 3.0,
             reps: 2,
-            intervals: { Again: "1m", Hard: "3d", Good: "7d", Easy: "16d" },
+            intervals: {
+              Again: "1m",
+              Hard: "3d",
+              Good: "7d",
+              Easy: "16d",
+            },
           },
           {
             id: "card-cs-12",
@@ -1404,7 +1730,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 3.2,
             difficulty: 2.8,
             reps: 3,
-            intervals: { Again: "1m", Hard: "3d", Good: "8d", Easy: "18d" },
+            intervals: {
+              Again: "1m",
+              Hard: "3d",
+              Good: "8d",
+              Easy: "18d",
+            },
           },
         ],
       },
@@ -1428,7 +1759,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 3.1,
             difficulty: 2.9,
             reps: 3,
-            intervals: { Again: "1m", Hard: "3d", Good: "8d", Easy: "17d" },
+            intervals: {
+              Again: "1m",
+              Hard: "3d",
+              Good: "8d",
+              Easy: "17d",
+            },
           },
           {
             id: "card-cs-14",
@@ -1447,7 +1783,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 2.9,
             difficulty: 3.1,
             reps: 2,
-            intervals: { Again: "1m", Hard: "3d", Good: "7d", Easy: "16d" },
+            intervals: {
+              Again: "1m",
+              Hard: "3d",
+              Good: "7d",
+              Easy: "16d",
+            },
           },
           {
             id: "card-cs-15",
@@ -1466,7 +1807,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 2.8,
             difficulty: 3.2,
             reps: 2,
-            intervals: { Again: "1m", Hard: "3d", Good: "7d", Easy: "15d" },
+            intervals: {
+              Again: "1m",
+              Hard: "3d",
+              Good: "7d",
+              Easy: "15d",
+            },
           },
         ],
       },
@@ -1491,7 +1837,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 3.0,
             difficulty: 3.0,
             reps: 2,
-            intervals: { Again: "1m", Hard: "3d", Good: "7d", Easy: "16d" },
+            intervals: {
+              Again: "1m",
+              Hard: "3d",
+              Good: "7d",
+              Easy: "16d",
+            },
           },
           {
             id: "card-cs-17",
@@ -1510,7 +1861,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 2.7,
             difficulty: 3.3,
             reps: 2,
-            intervals: { Again: "1m", Hard: "2d", Good: "6d", Easy: "15d" },
+            intervals: {
+              Again: "1m",
+              Hard: "2d",
+              Good: "6d",
+              Easy: "15d",
+            },
           },
           {
             id: "card-cs-18",
@@ -1529,7 +1885,12 @@ const INITIAL_TRACKS: SubjectTrack[] = [
             stability: 3.5,
             difficulty: 2.5,
             reps: 3,
-            intervals: { Again: "1m", Hard: "4d", Good: "10d", Easy: "21d" },
+            intervals: {
+              Again: "1m",
+              Hard: "4d",
+              Good: "10d",
+              Easy: "21d",
+            },
           },
         ],
       },
@@ -1557,7 +1918,7 @@ const fsrsScheduler = fsrs(
 function updateCardWithFSRS(
   card: FlashcardItem,
   grade: ReviewGrade,
-  nowMs: number = Date.now(),
+  nowMs: number
 ): FlashcardItem {
   const now = new Date(nowMs);
   const baseCard = createEmptyCard(now);
@@ -1569,12 +1930,10 @@ function updateCardWithFSRS(
     reps: card.reps,
     lapses: card.lapses ?? 0,
     state: card.reps > 0 ? State.Review : State.New,
-    last_review: card.lastReviewDate
-      ? new Date(card.lastReviewDate)
-      : undefined,
+    last_review: card.lastReviewDate ? new Date(card.lastReviewDate) : undefined,
   };
 
-  const ratingMap: Record<ReviewGrade, Rating> = {
+  const ratingMap: Record<ReviewGrade, Grade> = {
     Again: Rating.Again,
     Hard: Rating.Hard,
     Good: Rating.Good,
@@ -1592,7 +1951,6 @@ function updateCardWithFSRS(
     return `${Math.round(diffHours / 24)}d`;
   };
 
-  // If the user misses ("Again"), schedule specifically for 1 minute from now
   const nextDueMs =
     grade === "Again" ? nowMs + 60 * 1000 : nextState.due.getTime();
 
@@ -1606,9 +1964,9 @@ function updateCardWithFSRS(
     dueDate: nextDueMs,
     intervals: {
       Again: "1m",
-      Hard: formatInterval(recordLog[Rating.Hard].card.due),
-      Good: formatInterval(recordLog[Rating.Good].card.due),
-      Easy: formatInterval(recordLog[Rating.Easy].card.due),
+      Hard: formatInterval(recordLog[ratingMap.Hard].card.due),
+      Good: formatInterval(recordLog[ratingMap.Good].card.due),
+      Easy: formatInterval(recordLog[ratingMap.Easy].card.due),
     },
   };
 }
@@ -1693,9 +2051,7 @@ export default function MilestoneApp() {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [isAnswerRevealed, setIsAnswerRevealed] = useState(false);
 
-  const [questionStartTime, setQuestionStartTime] = useState<number>(
-    Date.now(),
-  );
+  const [questionStartTime, setQuestionStartTime] = useState<number>(0);
   const [responseTimeSeconds, setResponseTimeSeconds] = useState<number | null>(
     null,
   );
@@ -1880,7 +2236,7 @@ export default function MilestoneApp() {
       <header className="border-b border-slate-800 bg-slate-900/80 backdrop-blur sticky top-0 z-20">
         <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-400 to-cyan-500 flex items-center justify-center font-black text-slate-950 text-xl shadow-lg shadow-emerald-500/20">
+            <div className="w-10 h-10 rounded-xl bg-linear-to-br from-emerald-400 to-cyan-500 flex items-center justify-center font-black text-slate-950 text-xl shadow-lg shadow-emerald-500/20">
               M
             </div>
             <div>
@@ -1929,7 +2285,7 @@ export default function MilestoneApp() {
             <div className="flex items-center gap-2.5">
               <div className="hidden sm:flex items-center gap-2 bg-slate-800/60 px-3 py-1.5 rounded-full border border-slate-700/80">
                 <UserIcon className="w-4 h-4 text-emerald-400" />
-                <span className="text-xs font-bold text-slate-200 max-w-[120px] truncate">
+                <span className="text-xs font-bold text-slate-200 max-w-30 truncate">
                   {userName}
                 </span>
               </div>
@@ -1979,7 +2335,7 @@ export default function MilestoneApp() {
                     <div>
                       <div className="flex items-center justify-between mb-4">
                         <div
-                          className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${track.color} flex items-center justify-center shadow-md`}
+                          className={`w-12 h-12 rounded-2xl bg-linear-to-br ${track.color} flex items-center justify-center shadow-md`}
                         >
                           {track.icon}
                         </div>
@@ -1999,7 +2355,7 @@ export default function MilestoneApp() {
 
                     <button
                       onClick={() => openLearningPath(track)}
-                      className={`w-full py-3 px-4 rounded-xl font-bold text-white bg-gradient-to-r ${track.color} hover:opacity-95 transition flex items-center justify-center gap-2 shadow-md`}
+                      className={`w-full py-3 px-4 rounded-xl font-bold text-white bg-linear-to-r ${track.color} hover:opacity-95 transition flex items-center justify-center gap-2 shadow-md`}
                     >
                       <Brain className="w-5 h-5" />
                       Iniciar Sessão de Estudo
@@ -2071,13 +2427,13 @@ export default function MilestoneApp() {
                       title={`Iniciar: ${milestone.title} (3 cartões)`}
                     >
                       {isCompleted ? (
-                        <Check className="w-9 h-9 text-white stroke-[3]" />
+                        <Check className="w-9 h-9 text-white stroke-3" />
                       ) : (
                         <Star className="w-9 h-9 text-white fill-white" />
                       )}
                     </button>
 
-                    <span className="mt-3 font-extrabold text-sm text-slate-100 text-center max-w-[180px]">
+                    <span className="mt-3 font-extrabold text-sm text-slate-100 text-center max-w-45">
                       {milestone.title}
                     </span>
                     <span className="text-[11px] text-slate-400">
