@@ -178,7 +178,7 @@ export async function saveCardReview(input: SaveReviewInput) {
     },
   });
 
-  // 3. Update User XP, Hearts, and lastStudyDate
+// 3. Update User XP, Hearts, Streak (consecutive correct answers), and lastStudyDate
   const currentUser = await prisma.user.findUniqueOrThrow({
     where: { id: authUser.id },
   });
@@ -189,11 +189,15 @@ export async function saveCardReview(input: SaveReviewInput) {
       ? Math.max(0, currentUser.hearts - 1)
       : currentUser.hearts;
 
+  // Reset streak to 0 on error, or increment by 1 on correct answer
+  const nextStreak = grade === "Again" ? 0 : currentUser.streak + 1;
+
   const updatedUser = await prisma.user.update({
     where: { id: authUser.id },
     data: {
       xp: { increment: xpEarned },
       hearts: nextHearts,
+      streak: nextStreak,
       lastStudyDate: new Date(),
     },
   });

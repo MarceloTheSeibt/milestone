@@ -12,7 +12,6 @@ import {
 import React, { useState, useEffect } from "react";
 import {
   Flame,
-  Heart,
   Zap,
   Calculator,
   BookOpen,
@@ -23,7 +22,6 @@ import {
   Brain,
   Check,
   Star,
-  BookMarked,
   LogOut,
   User as UserIcon,
 } from "lucide-react";
@@ -1918,7 +1916,7 @@ const fsrsScheduler = fsrs(
 function updateCardWithFSRS(
   card: FlashcardItem,
   grade: ReviewGrade,
-  nowMs: number
+  nowMs: number,
 ): FlashcardItem {
   const now = new Date(nowMs);
   const baseCard = createEmptyCard(now);
@@ -1930,7 +1928,9 @@ function updateCardWithFSRS(
     reps: card.reps,
     lapses: card.lapses ?? 0,
     state: card.reps > 0 ? State.Review : State.New,
-    last_review: card.lastReviewDate ? new Date(card.lastReviewDate) : undefined,
+    last_review: card.lastReviewDate
+      ? new Date(card.lastReviewDate)
+      : undefined,
   };
 
   const ratingMap: Record<ReviewGrade, Grade> = {
@@ -1973,7 +1973,7 @@ function updateCardWithFSRS(
 
 export default function MilestoneApp() {
   const [xp, setXp] = useState(0);
-  const [streak, setStreak] = useState(1);
+  const [streak, setStreak] = useState(0);
   const [hearts, setHearts] = useState(5);
   const [userName, setUserName] = useState<string>("Carregando...");
   const [isLoggingOut, setIsLoggingOut] = useState<boolean>(false);
@@ -2165,6 +2165,9 @@ export default function MilestoneApp() {
     setXp((prev) => prev + xpMap[autoGrade]);
     if (autoGrade === "Again") {
       setHearts((prev) => Math.max(0, prev - 1));
+      setStreak(0);
+    } else {
+      setStreak((prev) => prev + 1);
     }
     if (activeTrack && activeMilestone) {
       const stepIndex = activeTrack.milestones.findIndex(
@@ -2201,7 +2204,7 @@ export default function MilestoneApp() {
     }
   };
 
-  const handleNextCard = async () => {
+  const handleNextCard = () => {
     if (!activeMilestone) return;
 
     if (cardIndex + 1 < sessionCards.length) {
@@ -2215,9 +2218,7 @@ export default function MilestoneApp() {
       if (!completedMilestones.includes(activeMilestone.id)) {
         setCompletedMilestones((prev) => [...prev, activeMilestone.id]);
       }
-      setStreak((prev) => prev + 1);
       setActiveMilestone(null);
-      await incrementUserStreak();
     }
   };
 
@@ -2236,16 +2237,8 @@ export default function MilestoneApp() {
       <header className="border-b border-slate-800 bg-slate-900/80 backdrop-blur sticky top-0 z-20">
         <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-linear-to-br from-emerald-400 to-cyan-500 flex items-center justify-center font-black text-slate-950 text-xl shadow-lg shadow-emerald-500/20">
-              M
-            </div>
-            <div>
-              <span className="font-extrabold text-xl tracking-tight text-white">
-                Milestone
-              </span>
-              <span className="block text-xs text-slate-400">
-                Formação Transversal no Ensino Superior • FSRS
-              </span>
+            <div className="w-fit px-4 h-10 rounded-2xl bg-gradient-to-br from-orange-400 to-amber-500 flex items-center justify-center font-black text-slate-950 text-2xl shadow-lg shadow-orange-500/20">
+              Milestone
             </div>
           </div>
 
@@ -2257,9 +2250,6 @@ export default function MilestoneApp() {
             >
               <Flame className="w-5 h-5 text-orange-400 fill-orange-400" />
               <span className="font-bold text-orange-400">{streak}</span>
-              <span className="text-xs text-slate-400 hidden md:inline">
-                dias
-              </span>
             </div>
 
             <div
@@ -2269,22 +2259,13 @@ export default function MilestoneApp() {
               <Zap className="w-5 h-5 text-amber-400 fill-amber-400" />
               <span className="font-bold text-amber-400">{xp} XP</span>
             </div>
-
-            <div
-              className="flex items-center gap-2 bg-slate-800/90 px-3.5 py-1.5 rounded-full border border-slate-700"
-              title="Vidas restantes"
-            >
-              <Heart className="w-5 h-5 text-rose-500 fill-rose-500" />
-              <span className="font-bold text-rose-400">{hearts}</span>
-            </div>
-
             {/* Divider */}
             <div className="h-6 w-px bg-slate-800 hidden sm:block" />
 
             {/* Logged-in User Profile & Logout Button */}
             <div className="flex items-center gap-2.5">
               <div className="hidden sm:flex items-center gap-2 bg-slate-800/60 px-3 py-1.5 rounded-full border border-slate-700/80">
-                <UserIcon className="w-4 h-4 text-emerald-400" />
+                <UserIcon className="w-4 h-4 text-amber-400" />
                 <span className="text-xs font-bold text-slate-200 max-w-30 truncate">
                   {userName}
                 </span>
@@ -2313,12 +2294,8 @@ export default function MilestoneApp() {
           <div>
             <div className="mb-8">
               <h1 className="text-3xl font-extrabold text-white">
-                Trilhas de Conhecimento Transversal
+                Selecione das matérias abaixo:
               </h1>
-              <p className="text-slate-400 mt-1">
-                Fortaleça sua base acadêmica utilizando Recuperação Ativa e
-                Repetição Espaçada FSRS.
-              </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -2339,10 +2316,6 @@ export default function MilestoneApp() {
                         >
                           {track.icon}
                         </div>
-                        <span className="text-xs font-semibold uppercase tracking-wider px-3 py-1 rounded-full bg-slate-800 text-slate-300 border border-slate-700">
-                          {track.milestones.length} Etapas • {totalCards}{" "}
-                          Cartões
-                        </span>
                       </div>
 
                       <h2 className="text-xl font-bold text-white mb-1">
@@ -2358,7 +2331,7 @@ export default function MilestoneApp() {
                       className={`w-full py-3 px-4 rounded-xl font-bold text-white bg-linear-to-r ${track.color} hover:opacity-95 transition flex items-center justify-center gap-2 shadow-md`}
                     >
                       <Brain className="w-5 h-5" />
-                      Iniciar Sessão de Estudo
+                      Iniciar Rota
                     </button>
                   </div>
                 );
@@ -2375,11 +2348,8 @@ export default function MilestoneApp() {
                 onClick={() => setActiveTrackId(null)}
                 className="text-sm text-slate-400 hover:text-white transition font-medium"
               >
-                ← Voltar para as Trilhas
+                ← Voltar para a Tela Principal
               </button>
-              <span className="text-xs text-slate-400">
-                3 cartões por atividade
-              </span>
             </div>
 
             {/* Subject Header Title */}
@@ -2401,9 +2371,6 @@ export default function MilestoneApp() {
                   {activeTrack.unitTitle}
                 </h2>
               </div>
-              <div className="border-2 border-white/40 bg-white/10 rounded-xl p-2.5">
-                <BookMarked className="w-6 h-6 text-white" />
-              </div>
             </div>
 
             {/* Winding Vertical Path of Circular Nodes */}
@@ -2424,7 +2391,7 @@ export default function MilestoneApp() {
                           ? "bg-orange-500 hover:bg-orange-400 shadow-[0_7px_0_#c2410c]"
                           : "bg-emerald-500 hover:bg-emerald-400 shadow-[0_7px_0_#047857]"
                       }`}
-                      title={`Iniciar: ${milestone.title} (3 cartões)`}
+                      title={`Iniciar: ${milestone.title}`}
                     >
                       {isCompleted ? (
                         <Check className="w-9 h-9 text-white stroke-3" />
@@ -2435,9 +2402,6 @@ export default function MilestoneApp() {
 
                     <span className="mt-3 font-extrabold text-sm text-slate-100 text-center max-w-45">
                       {milestone.title}
-                    </span>
-                    <span className="text-[11px] text-slate-400">
-                      {milestone.cards.length} cartões
                     </span>
                   </div>
                 );
@@ -2479,7 +2443,7 @@ export default function MilestoneApp() {
             {currentCard && (
               <div className="bg-slate-900 border border-slate-800 rounded-3xl p-8 shadow-2xl">
                 {/* FSRS Metadata Badge */}
-                <div className="flex flex-wrap items-center gap-3 mb-6 text-xs text-slate-400">
+                {/* <div className="flex flex-wrap items-center gap-3 mb-6 text-xs text-slate-400">
                   <span className="px-2.5 py-1 rounded-md bg-slate-800 border border-slate-700">
                     Estabilidade FSRS:{" "}
                     <strong className="text-emerald-400">
@@ -2496,7 +2460,7 @@ export default function MilestoneApp() {
                     Revisões:{" "}
                     <strong className="text-white">{currentCard.reps}</strong>
                   </span>
-                </div>
+                </div> */}
 
                 {/* Question Prompt */}
                 <h3 className="text-2xl font-bold text-white leading-snug mb-6">
